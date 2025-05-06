@@ -1,22 +1,40 @@
-
-import { deleteTodo } from "@/redux/features/TodoSlice";
+import { deleteTodo, updateIsComplete } from "@/redux/features/TodoSlice";
 import { Button } from "../ui/button";
 import { useAppDispatch } from "@/redux/hooks";
+import { useState } from "react";
 
 const TodoCard = ({ todo }) => {
-  const { title, description, time, id } = todo;
-  const dispatch= useAppDispatch();
-  const handleDeleteTodo = (todoId:string) => {
-    dispatch(deleteTodo(todoId))
+  const { title, description, time, id, isComplete } = todo;
+  const dispatch = useAppDispatch();
+  const handleDeleteTodo = (todoId: string) => {
+    dispatch(deleteTodo(todoId));
   };
+  const [IsChecked, setIsChecked] = useState(false);
+  if(IsChecked){
+    dispatch(updateIsComplete({id,status:true}))
+  }
+  if(!IsChecked){
+    dispatch(updateIsComplete({id,status:false}))
+  }
+
   return (
-    <div className="flex justify-between items-center border-2  bg-white px-3 py-2  rounded-lg">
-      <input type="checkbox" name="" id="" />
-      <p className="text-center">{title}</p>
-      <p className="text-center">{time}</p>
-      <p className="text-center">{description}</p>
-      <div className="flex gap-4 items-center">
-        <Button onClick={()=>handleDeleteTodo(id)} className="bg-red-600">
+    <div className="flex justify-between items-center border-2  bg-white px-3 py-2  rounded-lg ">
+      <input
+        onChange={(e) => setIsChecked(e.target.checked)}
+        type="checkbox"
+        name=""
+        id=""
+      />
+      <p>{title}</p>
+      <p>{time}</p>
+      <p>{description}</p>
+      {isComplete ? (
+        <p className="text-green-600 ">Done</p>
+      ) : (
+        <p className="text-red-600 ">Pending</p>
+      )}
+      <div className="flex gap-4 items-center ">
+        <Button onClick={() => handleDeleteTodo(id)} className="bg-red-600">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

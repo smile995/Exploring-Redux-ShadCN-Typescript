@@ -1,3 +1,4 @@
+
 import { createSlice } from "@reduxjs/toolkit";
 // import type { PayloadAction } from '@reduxjs/toolkit'
 // import type { RootState } from '../store'
@@ -31,10 +32,14 @@ export const TodoSlice = createSlice({
       const remainingTodo = state.todos.filter((todo) => todo.id !== payload);
       state.todos = remainingTodo;
     },
+    updateIsComplete: (state, { payload }) => {
+      const target= state.todos.find((todo) => todo.id == payload.id);
+      target.isComplete = payload.status;
+    },
   },
 });
 
-export const { addTodo,deleteTodo } = TodoSlice.actions;
+export const { addTodo, deleteTodo,updateIsComplete } = TodoSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value
