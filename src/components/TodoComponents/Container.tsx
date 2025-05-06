@@ -1,9 +1,12 @@
-import { Button } from "../ui/button";
+import { useAppSelector } from "@/redux/hooks";
 import AddTodoModal from "./AddTodoModal";
 import Dropdown from "./Dropdown";
 import TodoCard from "./TodoCard";
 
 const Container = () => {
+  const {todos}= useAppSelector((state)=>state.todos)
+  console.log(todos);
+  
   return (
     <div>
       <div className="flex justify-between items-center mb-3">
@@ -28,7 +31,9 @@ const Container = () => {
               </div>
             </div>
           </div>
-          <TodoCard />
+         {
+          todos?.map(todo=><TodoCard todo={todo} key={todo.id} />)
+         }
         </div>
       </div>
     </div>
