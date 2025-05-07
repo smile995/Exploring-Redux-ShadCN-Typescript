@@ -1,11 +1,24 @@
-import { useAppSelector } from "@/redux/hooks";
+// import { useAppSelector } from "@/redux/hooks";
+import type { TTodo } from "@/redux/features/TodoSlice";
+import { Skeleton } from "../ui/skeleton";
 import AddTodoModal from "./AddTodoModal";
 import Dropdown from "./Dropdown";
 import TodoCard from "./TodoCard";
+import { useGetTodosQuery } from "@/redux/api/api";
+//  import { TTodo } from "@/redux/features/TodoSlice";
+
 
 const Container = () => {
-  const {todos}= useAppSelector((state)=>state.todos)
-  console.log(todos);
+  // const {todos}= useAppSelector((state)=>state.todos)
+ const {data:todos,isLoading,isFetching}=useGetTodosQuery(undefined);
+
+ if (isFetching || isLoading){
+  return (
+    <div>
+      <Skeleton className="w-[100px] h-[20px] rounded-full" />
+    </div>
+  )
+ }
   
   return (
     <div>
@@ -33,7 +46,7 @@ const Container = () => {
             </div>
           </div>
          {
-          todos?.map(todo=><TodoCard todo={todo} key={todo.id} />)
+          todos?.map((todo: TTodo)=><TodoCard todo={todo} key={todo._id} />)
          }
         </div>
       </div>

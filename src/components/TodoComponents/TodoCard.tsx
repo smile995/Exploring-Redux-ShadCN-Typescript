@@ -1,7 +1,8 @@
-import { deleteTodo, updateIsComplete } from "@/redux/features/TodoSlice";
+import { deleteTodo,  } from "@/redux/features/TodoSlice";
 import { Button } from "../ui/button";
 import { useAppDispatch } from "@/redux/hooks";
 import { useState } from "react";
+
 
 const TodoCard = ({ todo }) => {
   const { title, description, time, id, isComplete } = todo;
@@ -9,18 +10,18 @@ const TodoCard = ({ todo }) => {
   const handleDeleteTodo = (todoId: string) => {
     dispatch(deleteTodo(todoId));
   };
-  const [IsChecked, setIsChecked] = useState(false);
-  if(IsChecked){
-    dispatch(updateIsComplete({id,status:true}))
-  }
-  if(!IsChecked){
-    dispatch(updateIsComplete({id,status:false}))
-  }
+  // const [IsChecked, setIsChecked] = useState(false);
+  // if(IsChecked){
+  //   dispatch(updateIsComplete({id,status:true}))
+  // }
+  // if(!IsChecked){
+  //   dispatch(updateIsComplete({id,status:false}))
+  // }
 
   return (
     <div className="flex justify-between items-center border-2  bg-white px-3 py-2  rounded-lg ">
       <input
-        onChange={(e) => setIsChecked(e.target.checked)}
+        // onChange={(e) => setIsChecked(e.target.checked)}
         type="checkbox"
         name=""
         id=""
