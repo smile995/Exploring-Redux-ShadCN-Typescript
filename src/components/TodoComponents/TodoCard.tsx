@@ -1,7 +1,7 @@
 import { deleteTodo } from "@/redux/features/TodoSlice";
 import { Button } from "../ui/button";
 import { useAppDispatch } from "@/redux/hooks";
-import { useState } from "react";
+import { useUpdateTodosMutation } from "@/redux/api/api";
 
 const TodoCard = ({ todo }) => {
   const { title, description, time, _id, isComplete, priority } = todo;
@@ -9,26 +9,29 @@ const TodoCard = ({ todo }) => {
   const handleDeleteTodo = (todoId: string) => {
     dispatch(deleteTodo(todoId));
   };
-  const [IsChecked, setIsChecked] = useState(false);
+  const [updateTodos] = useUpdateTodosMutation();
+
+
   const option = {
     id: _id,
     data: {
-      isComplete,
+      title,
+      description,
+      time,
+      isComplete: !isComplete,
+      priority,
     },
   };
-  
-  // if(IsChecked){
-  //   dispatch(updateIsComplete({id,status:true}))
-  // }
-  // if(!IsChecked){
-  //   dispatch(updateIsComplete({id,status:false}))
-  // }
+
+  const toggleIsComplete = () => {
+    updateTodos(option);
+  };
 
   return (
     <div className="flex justify-between items-center border-2  bg-white px-3 py-2  rounded-lg ">
       <input
         className="mr-5 size-5"
-        onChange={(e) => setIsChecked(e.target.checked)}
+        onChange={toggleIsComplete}
         type="checkbox"
         name=""
         id=""
