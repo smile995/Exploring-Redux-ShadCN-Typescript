@@ -5,17 +5,20 @@ import AddTodoModal from "./AddTodoModal";
 import Dropdown from "./Dropdown";
 import TodoCard from "./TodoCard";
 import { useGetTodosQuery } from "@/redux/api/api";
-//  import { TTodo } from "@/redux/features/TodoSlice";
+import { useState } from "react";
+
 
 
 const Container = () => {
-  // const {todos}= useAppSelector((state)=>state.todos)
- const {data:todos,isLoading,isFetching}=useGetTodosQuery(undefined);
+  const [priority,setPriority]=useState("");
+  
+  
+ const {data:todos,isLoading,isFetching}=useGetTodosQuery(priority);
 
  if (isFetching || isLoading){
   return (
     <div>
-      <Skeleton className="w-[100px] h-[20px] rounded-full" />
+      <Skeleton className="w-[100px] h-[100px] rounded-full" />
     </div>
   )
  }
@@ -24,7 +27,7 @@ const Container = () => {
     <div>
       <div className="flex justify-between items-center mb-3">
         <AddTodoModal />
-        <Dropdown />
+        <Dropdown priority={priority} setPriority={setPriority} />
       </div>
       <div
         className="bg-gradient-to-r from-indigo-500 via-purple-500
@@ -38,6 +41,7 @@ const Container = () => {
               <p className="text-xl col-span-1 font-semibold capitalize text-pink-600">title</p>
               <p className="text-xl col-span-1 font-semibold capitalize text-pink-600">time</p>
               <p className="text-xl col-span-1 font-semibold capitalize text-pink-600">description</p>
+              <p className="text-xl col-span-1 font-semibold capitalize text-pink-600">Priority</p>
               <p className="text-xl col-span-1 font-semibold capitalize text-pink-600">Status</p>
               <div className="flex gap-4 col-span-1 items-center">
                <p className="text-xl font-semibold capitalize text-pink-600">Take Actions</p>

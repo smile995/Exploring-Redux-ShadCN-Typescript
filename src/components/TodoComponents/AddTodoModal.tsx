@@ -18,19 +18,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { useAppDispatch } from "@/redux/hooks";
-import { addTodo } from "@/redux/features/TodoSlice";
+import { useAddTodosMutation } from "@/redux/api/api";
 
 const AddTodoModal = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
-  const dispatch = useAppDispatch();
+  const [addTodos] =useAddTodosMutation();
+
+
   const handleAddTodo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const generateId = Math.random().toString(32).replace(".", "ahi");
     const todoDetails = {
-      id: generateId,
       title,
       description,
       priority,
@@ -38,8 +37,7 @@ const AddTodoModal = () => {
       isDeleted: false,
       time: new Date().toLocaleString(),
     };
-    console.log(todoDetails);
-    dispatch(addTodo(todoDetails));
+    addTodos(todoDetails);
   };
   return (
     <Dialog>

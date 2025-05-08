@@ -1,16 +1,22 @@
-import { deleteTodo,  } from "@/redux/features/TodoSlice";
+import { deleteTodo } from "@/redux/features/TodoSlice";
 import { Button } from "../ui/button";
 import { useAppDispatch } from "@/redux/hooks";
 import { useState } from "react";
 
-
 const TodoCard = ({ todo }) => {
-  const { title, description, time, id, isComplete } = todo;
+  const { title, description, time, _id, isComplete, priority } = todo;
   const dispatch = useAppDispatch();
   const handleDeleteTodo = (todoId: string) => {
     dispatch(deleteTodo(todoId));
   };
-  // const [IsChecked, setIsChecked] = useState(false);
+  const [IsChecked, setIsChecked] = useState(false);
+  const option = {
+    id: _id,
+    data: {
+      isComplete,
+    },
+  };
+  
   // if(IsChecked){
   //   dispatch(updateIsComplete({id,status:true}))
   // }
@@ -21,21 +27,35 @@ const TodoCard = ({ todo }) => {
   return (
     <div className="flex justify-between items-center border-2  bg-white px-3 py-2  rounded-lg ">
       <input
-        // onChange={(e) => setIsChecked(e.target.checked)}
+        className="mr-5 size-5"
+        onChange={(e) => setIsChecked(e.target.checked)}
         type="checkbox"
         name=""
         id=""
+        defaultChecked={isComplete}
       />
-      <p>{title}</p>
-      <p>{time}</p>
-      <p>{description}</p>
-      {isComplete ? (
-        <p className="text-green-600 ">Done</p>
-      ) : (
-        <p className="text-red-600 ">Pending</p>
-      )}
+      <p className="flex-1">{title}</p>
+      <p className="flex-1">{time}</p>
+      <p className="flex-[2]">{description}</p>
+      <div className="flex-1 flex items-center gap-3 ">
+        <div
+          className={`size-3 rounded-full
+           ${priority == "high" ? "bg-red-500" : ""}
+           ${priority == "medium" ? "bg-yellow-500" : ""}
+           ${priority == "low" ? "bg-green-500" : ""}
+           `}
+        ></div>
+        <p className="capitalize">{priority}</p>
+      </div>
+      <div className="flex-1">
+        {isComplete ? (
+          <p className="text-green-600 ">Done</p>
+        ) : (
+          <p className="text-red-600 ">Pending</p>
+        )}
+      </div>
       <div className="flex gap-4 items-center ">
-        <Button onClick={() => handleDeleteTodo(id)} className="bg-red-600">
+        <Button onClick={() => handleDeleteTodo(_id)} className="bg-red-600">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
